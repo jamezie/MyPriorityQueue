@@ -50,9 +50,8 @@ void Node::setValue(int v) {
 }
 
 void static Node::swapNodes(Node * node1, Node * node2){
-	if(!node1 || (!node2)) {
+	if(!node1 || (!node2))
 		return;
-	}
 
 	Node::Node * tempParent = node1->getParent();
 	Node::Node * tempLeft = node1->getLeft();
@@ -65,6 +64,55 @@ void static Node::swapNodes(Node * node1, Node * node2){
 	node2->setParent(tempParent);
 	node2->setLeft(tempLeft);
 	node2->setRight(tempRight);
+}
+
+bool Node::isLowerPriorityThan(Node * node2) {
+	if(this->getPriority() < node2->getPriority())
+		return true;
+
+	return false;
+}
+
+void Node::pointToMe() {
+	Node::Node * par = this->getParent();
+	Node::Node * lef = this->getLeft();
+	Node::Node * rig = this->getRight();
+
+	if(lef)
+		lef->setParent(this);
+
+	if(rig)
+		rig->setParent(this);
+
+	if(!par)
+		return;
+
+	// If here, parent exists.. need to find out if im left or right child
+	if(this->isLowerPriorityThan(par))
+		par->setLeft(this);
+	else
+		par->setRight(this);
+}
+
+void Node::nullToMe() {
+	Node::Node * par = this->getParent();
+	Node::Node * lef = this->getLeft();
+	Node::Node * rig = this->getRight();
+
+	if(lef)
+		lef->setParent(0);
+
+	if(rig)
+		rig->setParent(0);
+
+	if(!par)
+		return;
+
+	// If here, parent exists.. need to find out if im left or right child
+	if(this->isLowerPriorityThan(par))
+		par->setLeft(0);
+	else
+		par->setRight(0);
 }
 
 

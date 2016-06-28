@@ -17,8 +17,20 @@ private:
 		return currLow;
 	}
 
-	void bubbleDown(Node::Node * bubbleNode, Node::Node * queuePosition) {
+	void bubbleDown(Node::Node * bubbleNode) {
+		if(!bubbleNode)
+			return;
 
+		Node::Node * left = bubbleNode->getLeft();
+		Node::Node * right = bubbleNode->getRight();
+
+		if(left && bubbleNode->isLowerPriorityThan(left)) {
+			Node::swapNodes(bubbleNode, left);
+			bubbleDown(left);
+		} else if(right && bubbleNode->isLowerPriorityThan(right)) {
+			Node::swapNodes(bubbleNode, right);
+			bubbleDown(right);
+		}
 	}
 
 public:
@@ -56,14 +68,21 @@ public:
 		}
 
 		Node::Node * lowestNode = getLowest();
+		Node::swapNodes(currTop, lowestNode);
+		currTop->pointToMe();
+		lowestNode->pointToMe();
+
+		top = lowestNode;
+		deleteNode(currTop);
+
+		bubbleDown(top);
 	}
 
 	void deleteNode(Node * delNode) {
+		delNode->nullToMe();
 		delNode->setParent(0);
 		delNode->setLeft(0);
 		delNode->setRight(0);
 		delete(delNode);
 	}
-
-
 };

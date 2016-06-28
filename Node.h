@@ -31,6 +31,9 @@ public:
 	void setParent(Node * p);
 	void setPriority(int p);
 	void setValue(int v);
+	void pointToMe();
+	void nullToMe();
+	bool isLowerPriorityThan(Node * node);
 
 	void static swapNodes(Node * node1, Node * node2);
 };
