@@ -1,58 +1,20 @@
-#include "Node.h"
+#include <array>
 
 class MyQueue {
 private:
-	Node::Node * top;
-	Node::Node * last;
-
-	Node::Node * getLowest() {
-		if(!top) return 0;
-		Node::Node * currLow = top;
-		Node::Node * currLeft = currLow->getLeft();
-
-		while(currLeft) {
-			currLow = currLeft;
-			currLeft = currLow->getLeft();
-		}
-
-		return currLow;
-	}
+	int tail;
+	Array queue;
 
 	void bubbleDown(Node::Node * bubbleNode) {
-		if(!bubbleNode)
-			return;
-
-		Node::Node * left = bubbleNode->getLeft();
-		Node::Node * right = bubbleNode->getRight();
-
-		if(left && bubbleNode->isLowerPriorityThan(left))
-			Node::swapNodes(bubbleNode, left);
-		else
-			Node::swapNodes(bubbleNode, right);
 	}
 
 	void bubbleUp(Node::Node * bubbleNode) {
-		if(!bubbleNode) return;
-		Node::Node * parent = bubbleNode->getParent();
-
-		while(parent) {
-			if(parent->isLowerPriorityThan(bubbleNode)) {
-				Node::swapNodes(bubbleNode, parent);
-				bubbleNode->pointToMe();
-				parent->pointToMe();
-
-				parent = bubbleNode->getParent();
-			} else {
-				bubbleNode = parent;
-				parent = parent->getParent();
-			}
-		}
 	}
 
 public:
-	MyQueue(): top(0), last(0){}
+	MyQueue(): tail(0);
 
-	Node::Node * peek() {
+	int peek() {
 		return top;
 	}
 
