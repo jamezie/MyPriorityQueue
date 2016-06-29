@@ -5,24 +5,46 @@
 class MyQueue {
 private:
 	int tail;
-	Node::Node * queue;
+	Node::Node ** queue;
 
-	void bubbleDown(){
+	void bubbleDown(int bubblePosition){
+		if(bubblePosition > tail) return;
 
+		int leftChildPosition = bubblePosition * 2;
+		int rightChildPosition = leftChildPosition + 1;
+		int largerChildPosition = 0;
+
+		while(leftChildPosition <= tail) {
+			int bubblePriority = queue[bubblePosition]->getPriority();
+			int leftChildPriority = queue[leftChildPosition]->getPriority();
+
+			if(rightChildPosition > tail) {
+
+				if(bubblePriority < leftChildPriority)
+					swapNodes(bubblePosition, leftChildPosition);
+
+				bubblePosition = leftChildPosition;
+			}
+
+			rightChildPosition = bubblePosition * 2 + 1;
+			leftChildPosition = bubblePosition * 2;
+		}
 	}
 
 	void bubbleUp(int bubblePosition){
-		if(bubblePosition < 1) return;
+		if(bubblePosition < INIT_POSITION) return;
 		Node::Node * bubbleNode = queue[bubblePosition];
-
+		Node::Node * parentNode = 0;
 		int parentPosition = bubblePosition/2;
-		if(parentPosition < 1) return;
 
-		Node::Node * parentNode = queue[parentPosition];
+		while(parentPosition >= INIT_POSITION) {
+			parentNode = queue[parentPosition];
 
-		if(parentNode->getPriority() < bubbleNode->getPriority()) {
-			swapNodes(bubblePosition, parentPosition);
-			bubbleUp(parentPosition);
+			if(parentNode->getPriority() < bubbleNode->getPriority())
+				swapNodes(bubblePosition, parentPosition);
+
+			bubblePosition = parentPosition;
+			parentPosition = bubblePosition/2;
 		}
 	}
 
@@ -30,7 +52,7 @@ private:
 		return queue[tail];
 	}
 
-	Node::Node * getLargerChild() {
+	int getLargerChildPosition(int parentPosition) {
 		return 0;
 	}
 
@@ -46,11 +68,11 @@ private:
 	}
 
 public:
-	MyQueue(int size): tail(INIT_POSITION) {
+	MyQueue(int size): tail(0) {
 		queue = new Node::Node[size];
 	}
 
-	MyQueue(): tail(INIT_POSITION) {
+	MyQueue(): tail(0) {
 		queue = new Node::Node[DEFAULT_QUEUE];
 	}
 
@@ -60,7 +82,19 @@ public:
 	}
 
 	Node::Node * pop(){
+		if(tail <= INIT_POSITION) return 0;
+
 		Node::Node * poppedNode = queue[INIT_POSITION];
+
+		queue[INIT_POSITION] = queue[tail];
+
+		delete(queue[tail]);
+		queue[tail] = 0;
+
+		if(tail > INIT_POSITION)
+			tail--;
+
+		bubbleDown(INIT_POSITION);
 
 		return poppedNode;
 	}
