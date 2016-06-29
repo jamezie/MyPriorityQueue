@@ -1,33 +1,27 @@
 #include "Node.h"
-#define DEFAULT_QUEUE 100
+#define DEFAULT_LENGTH 100
 #define INIT_POSITION 1
 
 class MyQueue {
 private:
 	int tail;
+	int length;
 	Node::Node ** queue;
 
 	void bubbleDown(int bubblePosition){
 		if(bubblePosition > tail) return;
 
-		int leftChildPosition = bubblePosition * 2;
-		int rightChildPosition = leftChildPosition + 1;
-		int largerChildPosition = 0;
+		int leftChildPosition;
+		int rightChildPosition;
 
-		while(leftChildPosition <= tail) {
-			int bubblePriority = queue[bubblePosition]->getPriority();
-			int leftChildPriority = queue[leftChildPosition]->getPriority();
+		while(hasLeftChild(bubblePosition)) {
+			int largerChildPosition =
+				getLargerChildPosition(bubblePosition);
 
-			if(rightChildPosition > tail) {
+			if(queue[bubblePosition] < queue[largerChildPosition])
+				swapNodes(bubblePosition, largerChildPosition);
 
-				if(bubblePriority < leftChildPriority)
-					swapNodes(bubblePosition, leftChildPosition);
-
-				bubblePosition = leftChildPosition;
-			}
-
-			rightChildPosition = bubblePosition * 2 + 1;
-			leftChildPosition = bubblePosition * 2;
+			bubblePosition = largerChildPosition;
 		}
 	}
 
@@ -52,8 +46,15 @@ private:
 		return queue[tail];
 	}
 
-	int getLargerChildPosition(int parentPosition) {
-		return 0;
+	int getLargerChildPosition(int parent) {
+		int right = getRightChildPosition(parent);
+		int left = getLeftChildPosition(parent);
+
+		if(right > tail) return left;
+		if(queue[left]->getPriority() < queue[right]->getPriority())
+			return right;
+
+		return left;
 	}
 
 	void swapNodes(int position1, int position2) {
@@ -67,22 +68,51 @@ private:
 		queue[position1] = node2;
 	}
 
+	bool hasRightChild(int parentPosition) {
+		if((parentPosition * 2 + 1) <= tail)
+			return true;
+
+		return false;
+	}
+
+	bool hasLeftChild(int parentPosition) {
+		if((parentPosition * 2 ) <= tail)
+			return true;
+
+		return false;
+	}
+
+	int getRightChildPosition(int parent) {
+		return (parent * 2 + 1);
+	}
+
+	int getLeftChildPosition(int parent) {
+		return (parent * 2);
+	}
+
 public:
 	MyQueue(int size): tail(0) {
-		queue = new Node::Node[size];
+		length = size;
+		queue = new Node::Node[length];
 	}
 
 	MyQueue(): tail(0) {
-		queue = new Node::Node[DEFAULT_QUEUE];
+		length = DEFAULT_LENGTH;
+		queue = new Node::Node[DEFAULT_LENGTH];
 	}
 
 
 	void push(Node::Node * newNode) {
+		if(tail >= (length-2)) return;
 
+		tail++;
+		queue[tail] = newNode;
+
+		bubbleUp(tail);
 	}
 
 	Node::Node * pop(){
-		if(tail <= INIT_POSITION) return 0;
+		if(tail < INIT_POSITION) return 0;
 
 		Node::Node * poppedNode = queue[INIT_POSITION];
 
