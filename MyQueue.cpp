@@ -5,10 +5,15 @@ private:
 	int tail;
 	Array queue;
 
+<<<<<<< HEAD
 	void bubbleDown(Node::Node * bubbleNode) {
 	}
 
 	void bubbleUp(Node::Node * bubbleNode) {
+=======
+	void bubbleDown(Node::Node * bubbleNode, Node::Node * queuePosition) {
+
+>>>>>>> parent of 1df7eec... Add nullToMe, pointToMe, isLowerPriorityThan, swapNodes, popBack, deleteNode, bubbleDown
 	}
 
 public:
@@ -45,6 +50,7 @@ public:
 
 		Node::Node * lastParent = last->getParent();
 
+<<<<<<< HEAD
 		if(lastParent)
 			lastParent->incChildren();
 
@@ -52,17 +58,27 @@ public:
 		bubbleUp(newNode);
 
 		last = getNewLast();
+=======
+			deleteNode(currTop);
+			return;
+		}
+
+		Node::Node * lowestNode = getLowest();
+>>>>>>> parent of 1df7eec... Add nullToMe, pointToMe, isLowerPriorityThan, swapNodes, popBack, deleteNode, bubbleDown
 	}
 
 	void deleteNode(Node * delNode) {
-		delNode->nullToMe();
 		delNode->setParent(0);
 		delNode->setLeft(0);
 		delNode->setRight(0);
 		delete(delNode);
 	}
 
+<<<<<<< HEAD
 	Node::Node * getNewLast(){
 		return 0;
 	}
+=======
+
+>>>>>>> parent of 1df7eec... Add nullToMe, pointToMe, isLowerPriorityThan, swapNodes, popBack, deleteNode, bubbleDown
 };
