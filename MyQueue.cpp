@@ -6,13 +6,10 @@ class MyQueue {
 private:
 	int tail;
 	int length;
-	Node::Node ** queue;
+	Node ** queue;
 
 	void bubbleDown(int bubblePosition){
 		if(bubblePosition > tail) return;
-
-		int leftChildPosition;
-		int rightChildPosition;
 
 		while(hasLeftChild(bubblePosition)) {
 			int largerChildPosition =
@@ -27,8 +24,8 @@ private:
 
 	void bubbleUp(int bubblePosition){
 		if(bubblePosition < INIT_POSITION) return;
-		Node::Node * bubbleNode = queue[bubblePosition];
-		Node::Node * parentNode = 0;
+		Node * bubbleNode = queue[bubblePosition];
+		Node * parentNode = 0;
 		int parentPosition = bubblePosition/2;
 
 		while(parentPosition >= INIT_POSITION) {
@@ -42,7 +39,7 @@ private:
 		}
 	}
 
-	Node::Node * getLast() {
+	Node * getLast() {
 		return queue[tail];
 	}
 
@@ -58,8 +55,8 @@ private:
 	}
 
 	void swapNodes(int position1, int position2) {
-		Node::Node * node1 = queue[position1];
-		Node::Node * node2 = queue[position2];
+		Node * node1 = queue[position1];
+		Node * node2 = queue[position2];
 
 		if(!(node1 && node2))
 			return;
@@ -93,16 +90,16 @@ private:
 public:
 	MyQueue(int size): tail(0) {
 		length = size;
-		queue = new Node::Node[length];
+		queue = new Node*[length];
 	}
 
 	MyQueue(): tail(0) {
 		length = DEFAULT_LENGTH;
-		queue = new Node::Node[DEFAULT_LENGTH];
+		queue = new Node*[DEFAULT_LENGTH];
 	}
 
 
-	void push(Node::Node * newNode) {
+	void push(Node *newNode) {
 		if(tail >= (length-2)) return;
 
 		tail++;
@@ -111,10 +108,10 @@ public:
 		bubbleUp(tail);
 	}
 
-	Node::Node * pop(){
+	Node * pop(){
 		if(tail < INIT_POSITION) return 0;
 
-		Node::Node * poppedNode = queue[INIT_POSITION];
+		Node * poppedNode = queue[INIT_POSITION];
 
 		queue[INIT_POSITION] = queue[tail];
 
@@ -129,7 +126,7 @@ public:
 		return poppedNode;
 	}
 
-	Node::Node * top(){
+	Node * top(){
 		return queue[INIT_POSITION];
 	}
 };

@@ -10,28 +10,18 @@
 
 class Node {
 private:
-	Node * parent;
-	Node * left;
-	Node * right;
-	int priority;
 	int value;
+	int priority;
 
 public:
-	Node();
-	Node(int value);
+	Node(): value(0), priority(0) {}
+	Node(int val): value(val), priority(0) {}
+	Node(int val, int pri): value(val), priority(pri) {}
 
-	Node * getLeft();
-	Node * getRight();
-	Node * getParent();
 	int getPriority();
 	int getValue();
 
-	void setLeft(Node * l);
-	void setRight(Node * r);
-	void setParent(Node * p);
 	void setPriority(int p);
 	void setValue(int v);
-
-	void static swapNodes(Node * node1, Node * node2);
 };
 #endif /* NODE_H_ */

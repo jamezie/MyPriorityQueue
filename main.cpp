@@ -6,7 +6,7 @@
  */
 #include "MyQueue.cpp"
 
-int main(int args[]) {
+int main() {
 
 	return 0;
 }
