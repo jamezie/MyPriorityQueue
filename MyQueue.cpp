@@ -3,6 +3,7 @@
 class MyQueue {
 private:
 	Node::Node * top;
+	Node::Node * last;
 
 	Node::Node * getLowest() {
 		if(!top) return 0;
@@ -24,58 +25,71 @@ private:
 		Node::Node * left = bubbleNode->getLeft();
 		Node::Node * right = bubbleNode->getRight();
 
-		if(left && bubbleNode->isLowerPriorityThan(left)) {
+		if(left && bubbleNode->isLowerPriorityThan(left))
 			Node::swapNodes(bubbleNode, left);
-			bubbleDown(left);
-		} else if(right && bubbleNode->isLowerPriorityThan(right)) {
+		else
 			Node::swapNodes(bubbleNode, right);
-			bubbleDown(right);
+	}
+
+	void bubbleUp(Node::Node * bubbleNode) {
+		if(!bubbleNode) return;
+		Node::Node * parent = bubbleNode->getParent();
+
+		while(parent) {
+			if(parent->isLowerPriorityThan(bubbleNode)) {
+				Node::swapNodes(bubbleNode, parent);
+				bubbleNode->pointToMe();
+				parent->pointToMe();
+
+				parent = bubbleNode->getParent();
+			} else {
+				bubbleNode = parent;
+				parent = parent->getParent();
+			}
 		}
 	}
 
 public:
-	MyQueue(): top(0){}
+	MyQueue(): top(0), last(0){}
 
 	Node::Node * peek() {
 		return top;
 	}
 
-	void pushBack(Node * newNode) {
+	void pop(Node * newNode) {
+		Node::Node * queuePosition = top;
+
+		while(queuePosition) {
+			if(newNode->isLowerPriorityThan(queuePosition)) {
+				queuePosition = queuePosition->getLeft();
+			} else {
+				Node::swapNodes(newNode, queuePosition);
+				newNode->pointToMe();
+				queuePosition->pointToMe();
+				queuePosition = newNode->
+			}
+		}
+
+
 
 	}
 
-	void popBack(){
-		if(!top) // Empty Queue
-			return;
-
-		Node::Node * currTop = top;
-		Node::Node * currLeft = top->getLeft();
-		Node::Node * currRight = top->getRight();
-
-		// Only top exists in Queue
-		if((currLeft == 0) && (currRight == 0)) {
-			delete(top);
+	void insert(Node * newNode){
+		if(!last) {
+			top = newNode;
+			last = getNewLast();
 			return;
 		}
 
-		// Top is smallest element
-		if(currLeft == 0) {
-			top = currTop->getRight();
-			top->setParent(0);
+		Node::Node * lastParent = last->getParent();
 
-			deleteNode(currTop);
-			return;
-		}
+		if(lastParent)
+			lastParent->incChildren();
 
-		Node::Node * lowestNode = getLowest();
-		Node::swapNodes(currTop, lowestNode);
-		currTop->pointToMe();
-		lowestNode->pointToMe();
+		newNode->setParent(last->getParent());
+		bubbleUp(newNode);
 
-		top = lowestNode;
-		deleteNode(currTop);
-
-		bubbleDown(top);
+		last = getNewLast();
 	}
 
 	void deleteNode(Node * delNode) {
@@ -84,5 +98,9 @@ public:
 		delNode->setLeft(0);
 		delNode->setRight(0);
 		delete(delNode);
+	}
+
+	Node::Node * getNewLast(){
+		return 0;
 	}
 };
