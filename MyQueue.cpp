@@ -1,84 +1,45 @@
-#include <array>
+#include "Node.h"
+#define DEFAULT_QUEUE 100
+#define INIT_POSITION 1
 
 class MyQueue {
 private:
 	int tail;
-	Array queue;
+	Node::Node * queue;
 
-<<<<<<< HEAD
-	void bubbleDown(Node::Node * bubbleNode) {
+	void bubbleDown(){
+
+		}
+
+	void bubbleUp(){
+
 	}
 
-	void bubbleUp(Node::Node * bubbleNode) {
-=======
-	void bubbleDown(Node::Node * bubbleNode, Node::Node * queuePosition) {
-
->>>>>>> parent of 1df7eec... Add nullToMe, pointToMe, isLowerPriorityThan, swapNodes, popBack, deleteNode, bubbleDown
-	}
 
 public:
-	MyQueue(): tail(0);
-
-	int peek() {
-		return top;
+	MyQueue(int size): tail(INIT_POSITION) {
+		queue = new Node::Node[size];
 	}
 
-	void pop(Node * newNode) {
-		Node::Node * queuePosition = top;
-
-		while(queuePosition) {
-			if(newNode->isLowerPriorityThan(queuePosition)) {
-				queuePosition = queuePosition->getLeft();
-			} else {
-				Node::swapNodes(newNode, queuePosition);
-				newNode->pointToMe();
-				queuePosition->pointToMe();
-				queuePosition = newNode->
-			}
-		}
+	MyQueue(): tail(INIT_POSITION) {
+		queue = new Node::Node[DEFAULT_QUEUE];
+	}
 
 
+	void push(Node::Node * newNode) {
 
 	}
 
-	void insert(Node * newNode){
-		if(!last) {
-			top = newNode;
-			last = getNewLast();
-			return;
-		}
-
-		Node::Node * lastParent = last->getParent();
-
-<<<<<<< HEAD
-		if(lastParent)
-			lastParent->incChildren();
-
-		newNode->setParent(last->getParent());
-		bubbleUp(newNode);
-
-		last = getNewLast();
-=======
-			deleteNode(currTop);
-			return;
-		}
-
-		Node::Node * lowestNode = getLowest();
->>>>>>> parent of 1df7eec... Add nullToMe, pointToMe, isLowerPriorityThan, swapNodes, popBack, deleteNode, bubbleDown
+	Node::Node * pop(){
+		return queue[INIT_POSITION];
 	}
 
-	void deleteNode(Node * delNode) {
-		delNode->setParent(0);
-		delNode->setLeft(0);
-		delNode->setRight(0);
-		delete(delNode);
+	Node::Node * getLast() {
+		return queue[tail];
 	}
 
-<<<<<<< HEAD
-	Node::Node * getNewLast(){
-		return 0;
+	Node::Node * top(){
+		return queue[1];
 	}
-=======
-
->>>>>>> parent of 1df7eec... Add nullToMe, pointToMe, isLowerPriorityThan, swapNodes, popBack, deleteNode, bubbleDown
 };
+
