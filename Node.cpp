@@ -6,18 +6,20 @@
  */
 #include "Node.h"
 
-int Node::getPriority(){
-	return Node::priority;
+template <class T> int Node<T>::getPriority(){
+	return Node<T>::priority;
 }
 
-void Node::setPriority(int p){
-	Node::priority = p;
+template <class T> void Node<T>::setPriority(int p){
+	Node<T>::priority = p;
 }
 
-int Node::getValue(){
-	return Node::value;
+template <class T> T Node<T>::getValue(){
+	return Node<T>::value;
 }
 
-void Node::setValue(int v) {
-	Node::value = v;
+template <class T> void Node<T>::setValue(T v) {
+	Node<T>::value = v;
 }
+
+template class Node<int>;

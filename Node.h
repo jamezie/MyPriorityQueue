@@ -8,20 +8,20 @@
 #ifndef NODE_H_
 #define NODE_H_
 
-class Node {
+template <class T> class Node {
 private:
-	int value;
+	T value;
 	int priority;
 
 public:
-	Node(): value(0), priority(0) {}
-	Node(int val): value(val), priority(0) {}
-	Node(int val, int pri): value(val), priority(pri) {}
+	Node<T>(): value(0), priority(0) {}
+	//Node<T>(T val): value(val), priority(0) {}
+	Node<T>(T val, int pri): value(val), priority(pri) {}
 
 	int getPriority();
-	int getValue();
+	T getValue();
 
 	void setPriority(int p);
-	void setValue(int v);
+	void setValue(T v);
 };
 #endif /* NODE_H_ */
